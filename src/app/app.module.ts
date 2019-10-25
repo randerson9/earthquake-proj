@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { MapDisplayComponent } from './map-display/map-display.component';
+// import { Observable } from 'rxjs';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MapDisplayComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule
+    // Observable
   ],
   providers: [],
   bootstrap: [AppComponent]
