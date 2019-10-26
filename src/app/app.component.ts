@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
       radius: 95000
     }).addTo(myMap);
 
-    this.http.get(this.dataUrl).toPromise().then(data => {
+    this.http.get(this.dataUrl).toPromise().then((data: any) => {
        console.log(typeof data.coordinates);
        // tslint:disable-next-line: prefer-for-of
        for (let i = 0;  i < data.features.length; i++) {
