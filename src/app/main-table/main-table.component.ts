@@ -1,51 +1,84 @@
 import {Component} from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+
+export interface EarthquakeElement {
+  magnitude: number;
+  latitude: number;
+  longitude: number;
+  area: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
-/**
- * @title Table dynamically changing the columns displayed
- */
 @Component({
   selector: 'app-main-table',
   styleUrls: ['main-table.component.css'],
   templateUrl: 'main-table.component.html',
 })
 
+
 export class MainTableComponent {
-  displayedColumns: string[] = ['name', 'weight', 'symbol', 'position'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
-  data: PeriodicElement[] = ELEMENT_DATA;
+  EARTHQUAKE_DATA: EarthquakeElement[] = [];
+  data: EarthquakeElement[] = [];
+  dataUrl = '../assets/data/testquake.json';
+// private http: HttpClient;
+constructor(private http: HttpClient) {
 
-  addColumn() {
-    const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
-    this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
-  }
+this.http.get(this.dataUrl).toPromise().then((data1: any) => {
 
-  removeColumn() {
-    if (this.columnsToDisplay.length) {
-      this.columnsToDisplay.pop();
+       // tslint:disable-next-line: prefer-for-of
+       for (let i = 0;  i < data1.features.length; i++) {
+           const mag = data1.features[i].properties.mag;
+           const location = data1.features[i].properties.place;
+           const long = data1.features[i].geometry.coordinates[0];
+           const lat = data1.features[i].geometry.coordinates[1];
+           const test: EarthquakeElement = {magnitude: mag, latitude: lat, longitude: long, area: location};
+
+           console.log(test);
+           console.log(' ');
+           this.EARTHQUAKE_DATA.push(test);
+           // The following two lines are greatly useful for debugging; they allow us to see what is stored in our
+           // interface array.
+           // console.log(this.EARTHQUAKE_DATA);
+           // console.log(this.EARTHQUAKE_DATA[0]); // => {id: "222", category: "testcat",event_name: "name"}
+           this.data = [...this.EARTHQUAKE_DATA];
     }
-  }
+  });
 
-  shuffle() {
+// tslint:disable-next-line: label-position
+// data: EarthquakeElement[] = this.EARTHQUAKE_DATA;
+
+}
+
+
+       // displayedColumns: string[] = ['name', 'weight', 'symbol', 'position'];
+       public displayedColumns = ['magnitude', 'latitude', 'longitude', 'area']; // note: the column names MUST be the same
+                                                                                    // as the value names in the EarthquakeElement interface
+
+       public columnsToDisplay: string[] = this.displayedColumns.slice();
+
+       // data: PeriodicElement[] = ELEMENT_DATA;
+      // data: EarthquakeElement[] = [...this.EARTHQUAKE_DATA];
+
+       addColumn() { // adds a random column
+          const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
+          this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
+       }
+
+       removeColumn() {
+        if (this.columnsToDisplay.length) {
+          this.columnsToDisplay.pop();
+        }
+      }
+
+      removeAllColumns() {
+         // tslint:disable-next-line: prefer-for-of
+          while (this.columnsToDisplay.length > 0) {
+            this.columnsToDisplay.pop();
+          }
+      }
+
+       shuffle() {
     let currentIndex = this.columnsToDisplay.length;
     while (0 !== currentIndex) {
       const randomIndex = Math.floor(Math.random() * currentIndex);
