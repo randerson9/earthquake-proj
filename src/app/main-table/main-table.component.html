@@ -1,14 +1,11 @@
-<button mat-button [matMenuTriggerFor]="menu0">Display Table </button>
 <button mat-button [matMenuTriggerFor]="menu1">Display by Magnitude</button>
 <button mat-button [matMenuTriggerFor]="menu2">Display by Date </button>
 
-<mat-menu #menu0="matMenu">
-    <button mat-menu-item (click)="addColumn(); removeColumn()"> Expand Table </button>
-</mat-menu>
-
 <mat-menu #menu1="matMenu">
-  <button mat-menu-item (click)="addColumn()"> Add Column </button>
-  <button mat-menu-item (click)="removeColumn()">Remove  column</button>
+  <button mat-menu-item (click)="upDateTable(1)"> mag 1.0+ </button>
+  <button mat-menu-item (click)="upDateTable(2.5)"> mag 2.5+ </button>
+  <button mat-menu-item (click)="upDateTable(4.5)"> mag 4.5+ </button>
+  <button mat-menu-item (click)="refreshTable()"> refresh table </button>
 </mat-menu>
 
 <mat-menu #menu2="matMenu">

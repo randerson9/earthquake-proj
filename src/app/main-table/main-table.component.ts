@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-// import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 
 export interface EarthquakeElement {
   magnitude: number;
@@ -16,37 +14,47 @@ export interface EarthquakeElement {
   templateUrl: 'main-table.component.html',
 })
 
-
 export class MainTableComponent {
-  EARTHQUAKE_DATA: EarthquakeElement[] = [];
-  data: EarthquakeElement[] = [];
   dataUrl = '../assets/data/testquake.json';
-// private http: HttpClient;
-constructor(private http: HttpClient) {
+  EARTHQUAKE_DATA_ALL: EarthquakeElement[] = [];     // holds all earthquake data
+  EARTHQUAKE_DATA_OVER4_5: EarthquakeElement[] = [];   // holds all earthquakes magnitude 4.5+
+  EARTHQUAKE_DATA_OVER2_5: EarthquakeElement[] = []; // holds all earthquakes magnitude 2.5+
+  EARTHQUAKE_DATA_OVER1: EarthquakeElement[] = [];   // holds all earthquakes magnitude 1+
 
-this.http.get(this.dataUrl).toPromise().then((data1: any) => {
+  data: EarthquakeElement[] = [];
+
+constructor(private http: HttpClient) {
+this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
 
        // tslint:disable-next-line: prefer-for-of
-       for (let i = 0;  i < data1.features.length; i++) {
-           const mag = data1.features[i].properties.mag;
-           const location = data1.features[i].properties.place;
-           const long = data1.features[i].geometry.coordinates[0];
-           const lat = data1.features[i].geometry.coordinates[1];
-           const test: EarthquakeElement = {magnitude: mag, latitude: lat, longitude: long, area: location};
+       for (let i = 0;  i < dataSource.features.length; i++) {
+           const mag = dataSource.features[i].properties.mag;
+           const location = dataSource.features[i].properties.place;
+           const long = dataSource.features[i].geometry.coordinates[0];
+           const lat = dataSource.features[i].geometry.coordinates[1];
+           const newValue: EarthquakeElement = {magnitude: mag, latitude: lat, longitude: long, area: location};
 
-           console.log(test);
-           console.log(' ');
-           this.EARTHQUAKE_DATA.push(test);
+          // console.log(newValue);
+          // console.log(' ');
+           this.EARTHQUAKE_DATA_ALL.push(newValue); // always push to this array, as it contains all earthquakes!!
+
+           if (mag >= 1) {
+              this.EARTHQUAKE_DATA_OVER1.push(newValue);
+           }
+           if (mag >= 2.5) {
+              this.EARTHQUAKE_DATA_OVER2_5.push(newValue);
+           }
+           if (mag >= 4.5) {
+              this.EARTHQUAKE_DATA_OVER4_5.push(newValue);
+           }
+
            // The following two lines are greatly useful for debugging; they allow us to see what is stored in our
            // interface array.
            // console.log(this.EARTHQUAKE_DATA);
-           // console.log(this.EARTHQUAKE_DATA[0]); // => {id: "222", category: "testcat",event_name: "name"}
-           this.data = [...this.EARTHQUAKE_DATA];
+           // console.log(this.EARTHQUAKE_DATA[0]);
+           this.data = [...this.EARTHQUAKE_DATA_ALL];
     }
   });
-
-// tslint:disable-next-line: label-position
-// data: EarthquakeElement[] = this.EARTHQUAKE_DATA;
 
 }
 
@@ -57,8 +65,28 @@ this.http.get(this.dataUrl).toPromise().then((data1: any) => {
 
        public columnsToDisplay: string[] = this.displayedColumns.slice();
 
-       // data: PeriodicElement[] = ELEMENT_DATA;
-      // data: EarthquakeElement[] = [...this.EARTHQUAKE_DATA];
+
+      upDateTable(magVal) {
+        this.removeAllColumns();
+
+        if (magVal === 1) {
+          this.data = [...this.EARTHQUAKE_DATA_OVER1];
+          this.columnsToDisplay = this.displayedColumns.slice();
+        } else if (magVal === 2.5) {
+          // alert('upDateTable() called'); // Note: this line is strictly for debugging and can be removed later
+          this.data = [...this.EARTHQUAKE_DATA_OVER2_5];
+          this.columnsToDisplay = this.displayedColumns.slice();
+        } else if (magVal === 4.5) {
+          this.data = [...this.EARTHQUAKE_DATA_OVER4_5];
+          this.columnsToDisplay = this.displayedColumns.slice();
+        }
+      }
+
+      refreshTable() { // this function will revert the table to its original display
+        this.removeAllColumns();
+        this.data = [...this.EARTHQUAKE_DATA_ALL];
+        this.columnsToDisplay = this.displayedColumns.slice();
+      }
 
        addColumn() { // adds a random column
           const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
@@ -73,6 +101,7 @@ this.http.get(this.dataUrl).toPromise().then((data1: any) => {
 
       removeAllColumns() {
          // tslint:disable-next-line: prefer-for-of
+         // alert('removeAllColumns() called');
           while (this.columnsToDisplay.length > 0) {
             this.columnsToDisplay.pop();
           }
