@@ -9,6 +9,7 @@ import { MatInputModule, MatCardModule,
   MatButtonModule, MatToolbarModule, MatExpansionModule, MatMenuModule  } from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 import { MainTableComponent } from './main-table/main-table.component';
+import { DisplayMapComponent } from './display-map/display-map.component';
 
 // import { Observable } from 'rxjs';
 
@@ -17,7 +18,8 @@ import { MainTableComponent } from './main-table/main-table.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    MainTableComponent
+    MainTableComponent,
+    DisplayMapComponent
   ],
   imports: [
     BrowserModule,
