@@ -59,8 +59,6 @@ export class AppComponent implements OnInit {
               radius: 50000
            }).addTo(myMap);
     }
-
-       console.log('THIS IS FUCKING RUNNING');
     });
   }
 

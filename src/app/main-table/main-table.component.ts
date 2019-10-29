@@ -34,8 +34,8 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
            const lat = dataSource.features[i].geometry.coordinates[1];
            const newValue: EarthquakeElement = {magnitude: mag, latitude: lat, longitude: long, area: location};
 
-          // console.log(newValue);
-          // console.log(' ');
+          // console.log(newValue); // Note: this line is here strictly for debugging. It can be removed without consequence.
+          // console.log(' ');      // Note: this line is here strictly for debugging. It can be removed without consequence.
            this.EARTHQUAKE_DATA_ALL.push(newValue); // always push to this array, as it contains all earthquakes!!
 
            if (mag >= 1) {
@@ -48,20 +48,16 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
               this.EARTHQUAKE_DATA_OVER4_5.push(newValue);
            }
 
-           // The following two lines are greatly useful for debugging; they allow us to see what is stored in our
-           // interface array.
-           // console.log(this.EARTHQUAKE_DATA);
-           // console.log(this.EARTHQUAKE_DATA[0]);
+           // console.log(this.EARTHQUAKE_DATA); // Note: this line is here strictly for debugging. It can be removed without consequence.
+           // console.log(this.EARTHQUAKE_DATA[0]); Note: this line is here strictly for debugging. It can be removed without consequence.
            this.data = [...this.EARTHQUAKE_DATA_ALL];
     }
   });
 
 }
 
-
-       // displayedColumns: string[] = ['name', 'weight', 'symbol', 'position'];
-       public displayedColumns = ['magnitude', 'latitude', 'longitude', 'area']; // note: the column names MUST be the same
-                                                                                    // as the value names in the EarthquakeElement interface
+       public displayedColumns = ['magnitude', 'latitude', 'longitude', 'area']; // note: the column names MUST be the same as the
+                                                                                 // value names in the EarthquakeElement interface
 
        public columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -80,6 +76,11 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
           this.data = [...this.EARTHQUAKE_DATA_OVER4_5];
           this.columnsToDisplay = this.displayedColumns.slice();
         }
+      }
+
+      sortOnMagnitude() {
+        // write function to sort data on magnitude
+        alert('sortOnMagnitude() called. This function is still in development!');
       }
 
       refreshTable() { // this function will revert the table to its original display
