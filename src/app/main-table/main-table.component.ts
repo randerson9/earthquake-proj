@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+// import { BehaviorSubject } from 'rxjs';
 
 export interface EarthquakeElement {
   magnitude: number;
@@ -16,6 +17,9 @@ export interface EarthquakeElement {
 
 export class MainTableComponent {
   dataUrl = '../assets/data/testquake.json';
+  // private messageSource = new BehaviorSubject<string>('default message');
+  // currentMessage = this.messageSource.asObservable();
+
   EARTHQUAKE_DATA_ALL: EarthquakeElement[] = [];     // holds all earthquake data
   EARTHQUAKE_DATA_OVER4_5: EarthquakeElement[] = [];   // holds all earthquakes magnitude 4.5+
   EARTHQUAKE_DATA_OVER2_5: EarthquakeElement[] = []; // holds all earthquakes magnitude 2.5+
@@ -107,6 +111,7 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
             this.columnsToDisplay.pop();
           }
       }
+
 
        shuffle() {
     let currentIndex = this.columnsToDisplay.length;

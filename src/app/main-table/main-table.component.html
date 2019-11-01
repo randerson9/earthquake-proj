@@ -19,11 +19,7 @@
 
 <button mat-raised-button (click)="refreshTable()"> Refresh Table </button>
 
-<!-- The below code is used to go from a dropdown menu to basic buttons
-     The following is strictly here for example and can be removed without consequence -->
-<!-- <button mat-raised-button (click)="addColumn()"> Add column </button>
-<button mat-raised-button (click)="removeColumn()"> Remove column </button>
-<button mat-raised-button (click)="shuffle()"> Shuffle </button> -->
+
 
 <table mat-table [dataSource]="data" *ngIf="data" class="mat-elevation-z8">
 
