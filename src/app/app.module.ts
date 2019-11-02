@@ -10,6 +10,8 @@ import { MatInputModule, MatCardModule,
 import {MatTableModule} from '@angular/material/table';
 import { MainTableComponent } from './main-table/main-table.component';
 import { DisplayMapComponent } from './display-map/display-map.component';
+// import { BehaviorSubject } from 'rxjs/';
+// import { BehaviorSubject } from 'rxjs';
 
 // import { Observable } from 'rxjs';
 
@@ -19,7 +21,8 @@ import { DisplayMapComponent } from './display-map/display-map.component';
     AppComponent,
     HeaderComponent,
     MainTableComponent,
-    DisplayMapComponent
+    DisplayMapComponent,
+    // BehaviorSubject
   ],
   imports: [
     BrowserModule,

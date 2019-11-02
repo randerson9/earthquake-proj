@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+// import { BehaviorSubject } from 'rxjs';
 
 export interface EarthquakeElement {
   magnitude: number;
@@ -15,7 +16,9 @@ export interface EarthquakeElement {
 })
 
 export class MainTableComponent {
-  dataUrl = '../assets/data/testquake.json';
+  // dataUrl = '../assets/data/testquake.json'; // use this url to test the program
+  dataUrl = 'http://localhost:3000/api/quakedata';
+
   EARTHQUAKE_DATA_ALL: EarthquakeElement[] = [];     // holds all earthquake data
   EARTHQUAKE_DATA_OVER4_5: EarthquakeElement[] = [];   // holds all earthquakes magnitude 4.5+
   EARTHQUAKE_DATA_OVER2_5: EarthquakeElement[] = []; // holds all earthquakes magnitude 2.5+
@@ -25,17 +28,16 @@ export class MainTableComponent {
 
 constructor(private http: HttpClient) {
 this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
-
-       // tslint:disable-next-line: prefer-for-of
-       for (let i = 0;  i < dataSource.features.length; i++) {
-           const mag = dataSource.features[i].properties.mag;
-           const location = dataSource.features[i].properties.place;
-           const long = dataSource.features[i].geometry.coordinates[0];
-           const lat = dataSource.features[i].geometry.coordinates[1];
+        let earthquakeDataArray = [];
+        earthquakeDataArray = dataSource.quakedata.features;
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0;  i < earthquakeDataArray.length; i++) {
+           const mag = earthquakeDataArray[i].properties.mag;
+           const location = earthquakeDataArray[i].properties.place;
+           const long = earthquakeDataArray[i].geometry.coordinates[0];
+           const lat = earthquakeDataArray[i].geometry.coordinates[1];
            const newValue: EarthquakeElement = {magnitude: mag, latitude: lat, longitude: long, area: location};
 
-          // console.log(newValue); // Note: this line is here strictly for debugging. It can be removed without consequence.
-          // console.log(' ');      // Note: this line is here strictly for debugging. It can be removed without consequence.
            this.EARTHQUAKE_DATA_ALL.push(newValue); // always push to this array, as it contains all earthquakes!!
 
            if (mag >= 1) {
@@ -107,6 +109,7 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
             this.columnsToDisplay.pop();
           }
       }
+
 
        shuffle() {
     let currentIndex = this.columnsToDisplay.length;
