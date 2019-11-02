@@ -46,13 +46,10 @@ export class DisplayMapComponent implements OnInit {
     this.myMap.setMaxBounds(myBounds); // remove later to avoid map "bouncing back"
 
     this.http.get(this.dataUrl).toPromise().then((data: any) => {
-       console.log(typeof data.coordinates);
+       console.log('data.features from display-map.component');
+       console.log(data.features);
        // tslint:disable-next-line: prefer-for-of
        for (let i = 0;  i < data.features.length; i++) {
-           console.log(data.features[i].properties.mag);
-           console.log(data.features[i].properties.place);
-           console.log(data.features[i].geometry.coordinates[1] + ', ' + data.features[i].geometry.coordinates[0]);
-           console.log('   ');
 
            const mag = data.features[i].properties.mag;
            const coords = [];
