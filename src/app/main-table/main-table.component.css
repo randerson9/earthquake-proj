@@ -1,7 +1,11 @@
 table {
-  width: 100%;
+  width: 95%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 button {
   margin: 16px 8px;
+  margin-left: 2.5%;
 }

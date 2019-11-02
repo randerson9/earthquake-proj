@@ -1,6 +1,7 @@
-<button mat-button [matMenuTriggerFor]="menu1">Display by Magnitude</button>
-<button mat-button [matMenuTriggerFor]="menu2">Display by Date </button>
-<button mat-button [matMenuTriggerFor]="menu3">Sort Table </button>
+<button mat-raised-button color="primary" [matMenuTriggerFor]="menu1">Display by Magnitude</button>
+<button mat-stroked-button color = "primary" [matMenuTriggerFor]="menu2">Display by Date </button>
+<button mat-stroked-button color = "primary" [matMenuTriggerFor]="menu3">Sort Table </button>
+<button mat-raised-button color = "accent" (click)="refreshTable()"> Refresh Table </button>
 
 <mat-menu #menu1="matMenu">
   <button mat-menu-item (click)="upDateTable(1)"> mag 1.0+ </button>
@@ -16,8 +17,6 @@
 <mat-menu #menu3="matMenu">
     <button mat-menu-item (click)="sortOnMagnitude()"> Sort on magnitude </button>
 </mat-menu>
-
-<button mat-raised-button (click)="refreshTable()"> Refresh Table </button>
 
 
 

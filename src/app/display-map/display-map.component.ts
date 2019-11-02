@@ -13,7 +13,9 @@ declare let L;
 export class DisplayMapComponent implements OnInit {
 
   myMap: any;
-  dataUrl = '../assets/data/testquake.json';
+  dataUrl = 'http://localhost:3000/api/quakedata';
+  // dataUrl = '../assets/data/testquake.json';
+
   // define feature groups for earthquakes with different magnitudes.
   allMagnitiudes = new Array();   // holds markers for all earthquake data
   // tslint:disable-next-line: variable-name
@@ -46,15 +48,16 @@ export class DisplayMapComponent implements OnInit {
     this.myMap.setMaxBounds(myBounds); // remove later to avoid map "bouncing back"
 
     this.http.get(this.dataUrl).toPromise().then((data: any) => {
-       console.log('data.features from display-map.component');
-       console.log(data.features);
-       // tslint:disable-next-line: prefer-for-of
-       for (let i = 0;  i < data.features.length; i++) {
+       let earthquakeDataArray = [];
+       earthquakeDataArray = data.quakedata.features;
 
-           const mag = data.features[i].properties.mag;
+       // tslint:disable-next-line: prefer-for-of
+       for (let i = 0;  i < earthquakeDataArray.length; i++) {
+
+           const mag = earthquakeDataArray[i].properties.mag;
            const coords = [];
-           coords[1] = data.features[i].geometry.coordinates[0];
-           coords[0] = data.features[i].geometry.coordinates[1];
+           coords[1] = earthquakeDataArray[i].geometry.coordinates[0];
+           coords[0] = earthquakeDataArray[i].geometry.coordinates[1];
 
 
            //  EVERYHING BELOW THIS LINE IS PART OF THE EXPERIMENT
@@ -78,11 +81,10 @@ export class DisplayMapComponent implements OnInit {
            }
 
            this.allMagnitiudes[i].addTo(this.myMap);
-           // myMap.removeLayer(this.allMagnitiudes[i]);
 
+           // myMap.removeLayer(this.allMagnitiudes[i]);
            // remove all quakes under 4.5 mag from map
            // this.removeAllUnder4_5();
-
     }
     });
   }
