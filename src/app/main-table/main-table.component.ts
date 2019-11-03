@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
+import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 // import { BehaviorSubject } from 'rxjs';
+import { MessageService } from '../_services';
 
 export interface EarthquakeElement {
   magnitude: number;
@@ -26,7 +28,7 @@ export class MainTableComponent {
 
   data: EarthquakeElement[] = [];
 
-constructor(private http: HttpClient) {
+constructor(private http: HttpClient, private messageService: MessageService) {
 this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
         let earthquakeDataArray = [];
         earthquakeDataArray = dataSource.quakedata.features;
@@ -77,6 +79,8 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
         } else if (magVal === 4.5) {
           this.data = [...this.EARTHQUAKE_DATA_OVER4_5];
           this.columnsToDisplay = this.displayedColumns.slice();
+          this.messageService.notifyOther({option: 'onSubmit', value: 'From header'});
+
         }
       }
 

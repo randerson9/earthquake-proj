@@ -10,6 +10,8 @@ import { MatInputModule, MatCardModule,
 import {MatTableModule} from '@angular/material/table';
 import { MainTableComponent } from './main-table/main-table.component';
 import { DisplayMapComponent } from './display-map/display-map.component';
+//  import { Subscription } from 'rxjs';
+import { MessageService } from './_services';
 // import { BehaviorSubject } from 'rxjs/';
 // import { BehaviorSubject } from 'rxjs';
 
@@ -26,6 +28,7 @@ import { DisplayMapComponent } from './display-map/display-map.component';
   ],
   imports: [
     BrowserModule,
+    // Subscription,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -38,7 +41,7 @@ import { DisplayMapComponent } from './display-map/display-map.component';
     MatTableModule
     // Observable
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

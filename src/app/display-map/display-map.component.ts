@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import '../../../node_modules/loader-runner/leaflet-routing-machine/dist/leaflet-routing-machine.js';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import {MessageService} from '../_services';
 
 declare let L;
 
@@ -10,8 +12,8 @@ declare let L;
   styleUrls: ['./display-map.component.css']
 })
 
-export class DisplayMapComponent implements OnInit {
-
+export class DisplayMapComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
   myMap: any;
   dataUrl = 'http://localhost:3000/api/quakedata';
   // dataUrl = '../assets/data/testquake.json';
@@ -24,7 +26,7 @@ export class DisplayMapComponent implements OnInit {
   magnitiudesUnder2_5 = new Array();
   magnitudesUnder1 = new Array();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private messageService: MessageService) {
     this.http.get(this.dataUrl).toPromise().then(data => {
       console.log(data);
     });
@@ -87,6 +89,17 @@ export class DisplayMapComponent implements OnInit {
            // this.removeAllUnder4_5();
     }
     });
+
+    this.subscription = this.messageService.notifyObservable$.subscribe((res) => {
+      if (res.hasOwnProperty('option') && res.option === 'onSubmit') {
+        // alert(res.value);
+        if (res.value === 'From header') {
+          this.removeAllUnder4_5();
+        }
+
+      }
+    });
+
   }
 
 removeAllUnder4_5() {
@@ -133,6 +146,10 @@ setColor(magnitude) {
 
 someMethod() {
   alert('ITS WORKING!!!');
+}
+
+ngOnDestroy() {
+  this.subscription.unsubscribe();
 }
 
 }
