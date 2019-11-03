@@ -19,12 +19,14 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
   // dataUrl = '../assets/data/testquake.json';
 
   // define feature groups for earthquakes with different magnitudes.
-  allMagnitiudes = new Array();   // holds markers for all earthquake data
+  allMagnitudes = new Array();   // holds markers for all earthquake data
   // tslint:disable-next-line: variable-name
-  magnitiudesUnder4_5 = new Array();   // holds markers for over 4.5 magnitude
+  magnitudesOver4_5 = new Array();   // holds markers for over 4.5 magnitude
   // tslint:disable-next-line: variable-name
-  magnitiudesUnder2_5 = new Array();
-  magnitudesUnder1 = new Array();
+  magnitudesOver2_5 = new Array();
+  magnitudesOver1 = new Array();
+  // whatToDisplay = new Array();
+  whatToDisplay = this.allMagnitudes;
 
   constructor(private http: HttpClient, private messageService: MessageService) {
     this.http.get(this.dataUrl).toPromise().then(data => {
@@ -70,19 +72,19 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
               radius: this.scaleCircles(mag)
             // radius: 75000
            });
-           this.allMagnitiudes.push(newCircle2);
+           this.allMagnitudes.push(newCircle2);
 
-           if (mag < 1) {
-             this.magnitudesUnder1.push(newCircle2);
+           if (mag >= 1) {
+             this.magnitudesOver1.push(newCircle2);
            }
-           if (mag < 2.5) {
-              this.magnitiudesUnder2_5.push(newCircle2);
+           if (mag >= 2.5) {
+              this.magnitudesOver2_5.push(newCircle2);
            }
-           if (mag < 4.5) {
-             this.magnitiudesUnder4_5.push(newCircle2);
+           if (mag >= 4.5) {
+             this.magnitudesOver4_5.push(newCircle2);
            }
 
-           this.allMagnitiudes[i].addTo(this.myMap);
+           this.allMagnitudes[i].addTo(this.myMap);
 
            // myMap.removeLayer(this.allMagnitiudes[i]);
            // remove all quakes under 4.5 mag from map
@@ -91,35 +93,59 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
     });
 
     this.subscription = this.messageService.notifyObservable$.subscribe((res) => {
-      if (res.hasOwnProperty('option') && res.option === 'onSubmit') {
+      // if (res.hasOwnProperty('option') && res.option === 'onSubmit') {
         // alert(res.value);
-        if (res.value === 'From header') {
-          this.removeAllUnder4_5();
+        if (res.value === 4.5) {
+          this.whatToDisplay = this.magnitudesOver4_5;
+        } else if (res.value === 2.5) {
+          this.whatToDisplay = this.magnitudesOver2_5;
+        } else if (res.value === 1) {
+          this.whatToDisplay = this.magnitudesOver1;
+        } else if (res.value === 'all') {
+          this.whatToDisplay = this.allMagnitudes;
         }
-
-      }
+        this.updateMap();
     });
 
   }
 
-removeAllUnder4_5() {
+clearMap() {
   // tslint:disable-next-line: prefer-for-of
-  for (let i = 0; i < this.magnitiudesUnder4_5.length; i++) {
-    this.myMap.removeLayer(this.magnitiudesUnder4_5[i]);
+  for (let i = 0; i < this.allMagnitudes.length; i++ ) {
+    this.myMap.removeLayer(this.allMagnitudes[i]);
   }
 }
 
-removeAllUnder2_5() {
+updateMap() {
+  this.clearMap();
   // tslint:disable-next-line: prefer-for-of
-  for (let i = 0; i < this.magnitiudesUnder2_5.length; i++) {
-    this.myMap.removeLayer(this.magnitiudesUnder2_5[i]);
+  for (let i = 0; i < this.whatToDisplay.length; i++) {
+    this.whatToDisplay[i].addTo(this.myMap);
+  }
+
+}
+
+displayAllOver4_5() {
+  this.clearMap();
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < this.magnitudesOver4_5.length; i++) {
+    this.magnitudesOver4_5[i].addTo(this.myMap);
   }
 }
 
-removeAllUnder1() {
+displayAllOver2_5() {
+  this.clearMap();
   // tslint:disable-next-line: prefer-for-of
-  for (let i = 0; i < this.magnitudesUnder1.length; i++) {
-    this.myMap.removeLayer(this.magnitudesUnder1[i]);
+  for (let i = 0; i < this.magnitudesOver2_5.length; i++) {
+    this.magnitudesOver2_5[i].addTo(this.myMap);
+  }
+}
+
+displayAllOver1() {
+  this.clearMap();
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < this.magnitudesOver1.length; i++) {
+    this.magnitudesOver1[i].addTo(this.myMap);
   }
 }
 

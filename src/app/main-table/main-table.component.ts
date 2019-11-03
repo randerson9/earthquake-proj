@@ -72,14 +72,16 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
         if (magVal === 1) {
           this.data = [...this.EARTHQUAKE_DATA_OVER1];
           this.columnsToDisplay = this.displayedColumns.slice();
+          this.messageService.notifyOther({value: 1});
         } else if (magVal === 2.5) {
           // alert('upDateTable() called'); // Note: this line is strictly for debugging and can be removed later
           this.data = [...this.EARTHQUAKE_DATA_OVER2_5];
           this.columnsToDisplay = this.displayedColumns.slice();
+          this.messageService.notifyOther({value: 2.5});
         } else if (magVal === 4.5) {
           this.data = [...this.EARTHQUAKE_DATA_OVER4_5];
           this.columnsToDisplay = this.displayedColumns.slice();
-          this.messageService.notifyOther({option: 'onSubmit', value: 'From header'});
+          this.messageService.notifyOther({value: 4.5});
 
         }
       }
@@ -93,6 +95,7 @@ this.http.get(this.dataUrl).toPromise().then((dataSource: any) => {
         this.removeAllColumns();
         this.data = [...this.EARTHQUAKE_DATA_ALL];
         this.columnsToDisplay = this.displayedColumns.slice();
+        this.messageService.notifyOther({value: 'all'});
       }
 
        addColumn() { // adds a random column
