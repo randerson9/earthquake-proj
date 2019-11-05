@@ -15,12 +15,16 @@
 </mat-menu>
 
 <mat-menu #menu3="matMenu">
-    <button mat-menu-item (click)="sortOnMagnitude()"> Sort on magnitude </button>
+    <button mat-menu-item [matMenuTriggerFor]="whatOrder"> Sort on magnitude </button>
+</mat-menu>
+
+<mat-menu #whatOrder="matMenu">
+  <button mat-menu-item (click)="sortOnMagnitudeAsc()"> Ascending </button>
+  <button mat-menu-item (click)="sortOnMagnitudeDesc()"> Descending </button>
 </mat-menu>
 
 
-
-<table mat-table [dataSource]="data" *ngIf="data" class="mat-elevation-z8">
+<table mat-table [dataSource]="DATA_CURRENTLY_DISPLAYED" *ngIf="DATA_CURRENTLY_DISPLAYED" class="mat-elevation-z8">
 
   <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
