@@ -58,7 +58,6 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
 
     this.fetchData_setupMap();
 
-
     // the following subscription is used to receive messages passed from main-table.component.ts
     // This is accomplished via a shared service (message.service.ts). We update which group of markers
     // are to be displayed. We simply update the whatToDisplay array to whichever group of circles correspond

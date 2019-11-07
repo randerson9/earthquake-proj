@@ -21,13 +21,14 @@ import { MessageService } from './_services';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     MainTableComponent,
     DisplayMapComponent,
+    HeaderComponent,
     // BehaviorSubject
   ],
   imports: [
     BrowserModule,
+    // HeaderModule,
     // Subscription,
     HttpClientModule,
     FormsModule,
@@ -41,6 +42,7 @@ import { MessageService } from './_services';
     MatTableModule
     // Observable
   ],
+  exports: [],
   providers: [MessageService],
   bootstrap: [AppComponent]
 })
