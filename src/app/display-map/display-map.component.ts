@@ -26,70 +26,38 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
   magnitudesOver4_5 = new Array();   // holds markers for over 4.5 magnitude
   magnitudesOver2_5 = new Array(); // holds markers for over 4.5 magnitude
   magnitudesOver1 = new Array(); // holds markers for over 4.5 magnitude
+  // earthquakeDataArray = new Array();
   whatToDisplay = this.allMagnitudes;
 
+  // Next, we set the bounds of the map.
+  southWest = L.latLng(-150, -250);
+  northEast = L.latLng(110, 250);
+  myBounds = L.latLngBounds(this.southWest, this.northEast);
+  startingCoordinates = [39.585, -103.46];
+  startingZoom = 5;
+
   constructor(private http: HttpClient, private messageService: MessageService) {  }
+
 
   ngOnInit() {
 
     // the following line centers the map on a given set of coordinates, and sets the initial zoom level
     // the setView() function takes two arguments, an array of coordinates and a zoom level.
-    this.myMap = L.map('map').setView([39.585, -103.46], 5);
-
-    // Next, we set the bounds of the map.
-    const southWest = L.latLng(-150, -250);
-    const northEast = L.latLng(110, 250);
-    const myBounds = L.latLngBounds(southWest, northEast);
+    this.myMap = L.map('map').setView(this.startingCoordinates, this.startingZoom);
 
     // add a tile layer to the map, set the bounds, set the maximum and minimum zoom
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 8,
       minZoom: 2,
-      bounds: myBounds,
+      bounds: this.myBounds,
       noWrap: true
     }).addTo(this.myMap);
 
-    this.myMap.setMaxBounds(myBounds); // this function makes the map "bounce back" if the user goes beyond the bounds of the map
+    this.myMap.setMaxBounds(this.myBounds); // this function makes the map "bounce back" if the user goes beyond the bounds of the map
 
-    this.http.get(this.dataUrl).toPromise().then((data: any) => {
-       let earthquakeDataArray = [];
-       earthquakeDataArray = data.quakedata.features;
+    this.fetchData_setupMap();
 
-       // tslint:disable-next-line: prefer-for-of
-       for (let i = 0;  i < earthquakeDataArray.length; i++) {
-
-           const mag = earthquakeDataArray[i].properties.mag; // temporary variable to store the magnitude
-           const coords = []; // temporary variable to store the earthquake's coordinates
-           coords[1] = earthquakeDataArray[i].geometry.coordinates[0]; // stores the longitude of the quake
-           coords[0] = earthquakeDataArray[i].geometry.coordinates[1]; // stores the latitude of the quake
-
-
-           //  The line below creates a new circle marker. It gives it a color, radius, ..etc.
-           const newCircle = L.circle(coords, {
-              color: '#545453',
-              fillColor: this.setColor(mag),
-              fillOpacity: 0.5,
-              radius: this.scaleCircles(mag)
-           });
-
-           // we push every single circle marker (regardless of magnitude) to allMagnitudes[]
-           this.allMagnitudes.push(newCircle);
-
-           if (mag >= 1) { // if the magnitude is greater than or equal to 1, it gets pushed to magnitudesOver1[]
-             this.magnitudesOver1.push(newCircle);
-           }
-           if (mag >= 2.5) { // if the magnitude is greater than or equal to 2.5, it gets pushed to magnitudesOver2_5[]
-              this.magnitudesOver2_5.push(newCircle);
-           }
-           if (mag >= 4.5) {
-             this.magnitudesOver4_5.push(newCircle);
-           }
-
-           // during each iteration of the initialization process, we add each newly created circle to the map one by one.
-           this.allMagnitudes[i].addTo(this.myMap);
-       }
-    });
 
     // the following subscription is used to receive messages passed from main-table.component.ts
     // This is accomplished via a shared service (message.service.ts). We update which group of markers
@@ -114,6 +82,49 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
 
   }
 
+
+  fetchData_setupMap() {
+    let earthquakeDataArray = [];
+    // this.http.get(this.dataUrl).toPromise().then((data: any) => {
+    this.http.get(this.dataUrl).subscribe((data: any) => {
+        earthquakeDataArray = data.quakedata.features;
+        this.setupMap(earthquakeDataArray);
+      });
+  }
+
+
+  setupMap(earthquakeDataArray) {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0;  i < earthquakeDataArray.length; i++) {
+          const mag = earthquakeDataArray[i].properties.mag; // temporary variable to store the magnitude
+          const coords = []; // temporary variable to store the earthquake's coordinates
+          coords[0] = earthquakeDataArray[i].geometry.coordinates[1]; // stores the latitude of the quake
+          coords[1] = earthquakeDataArray[i].geometry.coordinates[0]; // stores the longitude of the quake
+
+          //  The line below creates a new circle marker. It gives it a color, radius, ..etc.
+          const newCircle = this.createCircle(coords, mag);
+
+          // we push every single circle marker (regardless of magnitude) to allMagnitudes[]
+          this.allMagnitudes.push(newCircle);
+
+          // if the magnitude is greater than or equal to 1, it gets pushed to magnitudesOver1[]
+          if (mag >= 1) {
+            this.magnitudesOver1.push(newCircle);
+          }
+          // if the magnitude is greater than or equal to 2.5, it gets pushed to magnitudesOver2_5[]
+          if (mag >= 2.5) {
+             this.magnitudesOver2_5.push(newCircle);
+          }
+          if (mag >= 4.5) {
+            this.magnitudesOver4_5.push(newCircle);
+          }
+
+          // during each iteration of the initialization process, we add each newly created circle to the map one by one.
+          this.allMagnitudes[i].addTo(this.myMap);
+      }
+  }
+
+
   // the following funcion loops through the array holding all possible markers and removes them from the map
   clearMap() {
     // tslint:disable-next-line: prefer-for-of
@@ -122,6 +133,16 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  createCircle(coords, mag) {
+    const newCircle = L.circle(coords, {
+      color: '#545453',
+      fillColor: this.setColor(mag),
+      fillOpacity: 0.5,
+      radius: this.scaleCircles(mag)
+    });
+
+    return newCircle;
+  }
 
   // the following function clears the map by calling clearMap(), then loops through whatever array of markers
   // is currently displayed in whatToDisplay[]. It adds them to the map one at a time.
