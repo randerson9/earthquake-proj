@@ -99,8 +99,6 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
     return this._earthquakeService.getQuakes()
     .toPromise().then((data: any) => {
       this.aaaatest = data.quakedata.features;
-      // this.setupMap(this.aaaatest);
-      // console.log( 'contents of aaaatest ' + this.aaaatest);
     });
   }
 
