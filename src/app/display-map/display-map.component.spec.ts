@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 fdescribe('DisplayMapComponent', () => {
 
-  /* let displayMapComponent: DisplayMapComponent; // service
+  let mapComponent: DisplayMapComponent; // service
   let httpMock: HttpTestingController;
   let injector: TestBed;
   // let messageService: MessageService;
@@ -20,15 +20,20 @@ fdescribe('DisplayMapComponent', () => {
 
       // messageService = TestBed.get(MessageService);
       injector = getTestBed();
-      displayMapComponent = TestBed.get(DisplayMapComponent);
-      httpMock = TestBed.get(HttpTestingController);
+      mapComponent = injector.get(DisplayMapComponent);
+      httpMock = injector.get(HttpTestingController);
 
 
-  }); */
+  });
 
   fit('should fetch the quake data', () => {
     const result = 0;
     expect(result).toBe(0);
-    // expect(displayMapComponent).toBeTruthy();
+    expect(mapComponent).toBeTruthy();
   });
+
+
+// ==========================================
+
+
 });

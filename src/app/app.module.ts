@@ -12,6 +12,7 @@ import { MainTableComponent } from './main-table/main-table.component';
 import { DisplayMapComponent } from './display-map/display-map.component';
 //  import { Subscription } from 'rxjs';
 import { MessageService } from './_services';
+import { GetQuakesService } from './_services';
 // import { BehaviorSubject } from 'rxjs/';
 // import { BehaviorSubject } from 'rxjs';
 
@@ -43,7 +44,7 @@ import { MessageService } from './_services';
     // Observable
   ],
   exports: [],
-  providers: [MessageService],
+  providers: [MessageService, GetQuakesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

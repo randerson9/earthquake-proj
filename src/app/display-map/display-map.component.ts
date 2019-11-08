@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { MessageService } from '../_services';
+import { MessageService, GetQuakesService } from '../_services';
+import * as L from 'leaflet';
 
 // Add the routing code to draw the route using the plugin. This is done in the line below:
-import '../../../node_modules/loader-runner/leaflet-routing-machine/dist/leaflet-routing-machine.js';
+// import '../../../node_modules/loader-runner/leaflet-routing-machine/dist/leaflet-routing-machine.js';
 
-declare let L;
+// declare let L;
 
 @Component({
   selector: 'app-display-map',
@@ -29,6 +30,8 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
   // earthquakeDataArray = new Array();
   whatToDisplay = this.allMagnitudes;
 
+  public aaaatest = [];
+
   // Next, we set the bounds of the map.
   southWest = L.latLng(-150, -250);
   northEast = L.latLng(110, 250);
@@ -36,7 +39,7 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
   startingCoordinates = [39.585, -103.46];
   startingZoom = 5;
 
-  constructor(private http: HttpClient, private messageService: MessageService) {  }
+  constructor(private http: HttpClient, private messageService: MessageService, private _earthquakeService: GetQuakesService) {  }
 
 
   ngOnInit() {
@@ -56,7 +59,17 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
 
     this.myMap.setMaxBounds(this.myBounds); // this function makes the map "bounce back" if the user goes beyond the bounds of the map
 
-    this.fetchData_setupMap();
+    // this.fetchData_setupMap();
+    // this.testFunction();
+    // this.setupMap(this.aaaatest);
+    /*this._earthquakeService.getQuakes()
+    .subscribe((data: any) => {
+      this.aaaatest = data.quakedata.features;
+      this.setupMap(this.aaaatest);
+      // console.log( 'contents of aaaatest ' + this.aaaatest);
+    });*/
+    this.testFunction().then(() =>
+        this.setupMap(this.aaaatest));
 
     // the following subscription is used to receive messages passed from main-table.component.ts
     // This is accomplished via a shared service (message.service.ts). We update which group of markers
@@ -82,7 +95,17 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
   }
 
 
+  testFunction() {
+    return this._earthquakeService.getQuakes()
+    .toPromise().then((data: any) => {
+      this.aaaatest = data.quakedata.features;
+      // this.setupMap(this.aaaatest);
+      // console.log( 'contents of aaaatest ' + this.aaaatest);
+    });
+  }
+
   fetchData_setupMap() {
+    alert('hello');
     let earthquakeDataArray = [];
     // this.http.get(this.dataUrl).toPromise().then((data: any) => {
     this.http.get(this.dataUrl).subscribe((data: any) => {
