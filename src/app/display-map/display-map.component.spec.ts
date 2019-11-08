@@ -2,7 +2,7 @@ import { DisplayMapComponent } from './display-map.component';
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-fdescribe('DisplayMapComponent', () => {
+describe('DisplayMapComponent', () => {
 
   let mapComponent: DisplayMapComponent; // service
   let httpMock: HttpTestingController;
@@ -26,7 +26,7 @@ fdescribe('DisplayMapComponent', () => {
 
   });
 
-  fit('should fetch the quake data', () => {
+  it('should fetch the quake data', () => {
     const result = 0;
     expect(result).toBe(0);
     expect(mapComponent).toBeTruthy();

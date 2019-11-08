@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class GetQuakesService {
 
-    private dataUrl = 'http://localhost:3000/api/quakedata';
+    dataUrl = 'http://localhost:3000/api/quakedata';
 
     constructor(private http: HttpClient) {}
 
