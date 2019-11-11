@@ -42,10 +42,10 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-\
+
 ## <------------------------------------------------------------------------------------>
-\
-\
+
+
 
 #### Project Specifics
 ## Angular Material
@@ -53,8 +53,10 @@ Angular Material is a collection of Material Design components for Angular web a
 
 ## Leaflet.js
 
-A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/). \
-For those in a hurry, a leaflet quick start guide can be found [here](https://leafletjs.com/examples/quick-start/). \
+A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/). 
+
+For those in a hurry, a leaflet quick start guide can be found [here](https://leafletjs.com/examples/quick-start/). 
+
 Thorough Documentation can be found [here](https://leafletjs.com/reference-1.5.0.html).
 
 
