@@ -49,7 +49,9 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 # Project Specifics
 ## Angular Material
-Angular Material is a collection of Material Design components for Angular web applications. 
+Angular Material is a collection of Material Design components for Angular web applications. It is well-optimized for Angular and the documentation is excellent. A link to the main website can be found [here](https://material.angular.io/). Listed below are some key parts of the project that were created using Angular Material. If you are interested in learning about the functionality or seeing examples, links are provided.
+
+The toolbar was created using the <mat-toolbar> container. Documentation and examples can be found [here](https://material.angular.io/components/toolbar/overview).
 
 ## Leaflet.js
 
@@ -62,7 +64,6 @@ Angular Material is a collection of Material Design components for Angular web a
 
 * Thorough Documentation can be found [here](https://leafletjs.com/reference-1.5.0.html).
 
-![leaflet map ex](https://www.researchgate.net/profile/David_Slater12/publication/320444878/figure/download/fig9/AS:551169596588034@1508420480530/An-example-OpenStreetMap-of-the-Naples-and-Mount-Vesuvius-region-Source.png)
 
 ![leaflet map ex](http://www.igismap.com/wp-content/uploads/2017/01/leafletjs-getting-started-output.jpg)
 
