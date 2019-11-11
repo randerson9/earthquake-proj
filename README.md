@@ -53,10 +53,8 @@ Angular Material is a collection of Material Design components for Angular web a
 
 ## Leaflet.js
 
- Markup : * Bullet list
-              * Nested bullet
-                  * Sub-nested bullet etc
-          * Bullet list item 2
+* Bullet list
+  * Nested bullet
           
 A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/). 
 
