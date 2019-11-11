@@ -47,7 +47,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 
 
-#### Project Specifics
+# Project Specifics
 ## Angular Material
 Angular Material is a collection of Material Design components for Angular web applications. 
 
