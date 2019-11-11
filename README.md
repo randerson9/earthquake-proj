@@ -51,7 +51,11 @@ Angular Material is a collection of Material Design components for Angular web a
 
 ## Leaflet.js
 
-[Quick Start Guide](https://leafletjs.com/examples/quick-start/) version 8.3.9.
+A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/).
+For those in a hurry, a leaflet quick start guide can be found [here](https://leafletjs.com/examples/quick-start/).
+Thorough Documentation can be found [here](https://leafletjs.com/reference-1.5.0.html).
+
+
 
 ## Further help
 
