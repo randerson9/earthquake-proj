@@ -51,7 +51,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Angular Material
 
 <p align="center">
-  <img width="460" height="300" src="https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png">
+  <img width="360" height="200" src="https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png">
 </p>
 
 ![Angular Material Logo](https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png)
