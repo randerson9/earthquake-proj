@@ -1,6 +1,40 @@
 # EarthquakeProj
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.9.
+insert description here. 
+
+## Get started
+
+### Clone the repo
+
+```shell
+git clone https://github.com/[INSERT LINK HERE]
+cd earthquake-proj
+```
+
+### Install npm packages
+
+Install the `npm` packages described in the `package.json` and verify that it works:
+
+```
+npm install
+npm start
+```
+
+The `npm start` command builds (compiles TypeScript and copies assets) the application into `dist/`, watches for changes to the source files, and runs `lite-server` on port `3000`.
+
+Shut it down manually with `Ctrl-C`.
+
+#### npm scripts
+
+
+
+These are the test-related scripts:
+
+* `npm test` - builds the application and runs Intern tests (both unit and functional) one time.
+* `npm run ci` - cleans, lints, and builds the application and runs Intern tests (both unit and functional) one time.
+
+
 
 ## Development server
 
@@ -18,9 +52,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Further help
 
