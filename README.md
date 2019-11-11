@@ -53,14 +53,11 @@ Angular Material is a collection of Material Design components for Angular web a
 
 ## Leaflet.js
 
-* Bullet list
-  * Nested bullet
-          
-A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/). 
+* A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/). This guide was used to display the map in the early stages of this project.
 
-For those in a hurry, a leaflet quick start guide can be found [here](https://leafletjs.com/examples/quick-start/). 
+* For those in a hurry, a (more general) leaflet quick start guide can be found [here](https://leafletjs.com/examples/quick-start/). 
 
-Thorough Documentation can be found [here](https://leafletjs.com/reference-1.5.0.html).
+* Thorough Documentation can be found [here](https://leafletjs.com/reference-1.5.0.html).
 
 
 
