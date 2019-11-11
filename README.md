@@ -25,15 +25,12 @@ The `npm start` command builds (compiles TypeScript and copies assets) the appli
 
 Shut it down manually with `Ctrl-C`.
 
-#### npm scripts
+#### Starting the server
+Note: In order for this project to work, we must start the server to fetch the earthquake data. The backend is written in Node.js. For this project, geoJSON data is stored in a static file. To run the server, navigate to the proper directory (in this case, it should be called earthquake-proj) and run the following command:
 
-
-
-These are the test-related scripts:
-
-* `npm test` - builds the application and runs Intern tests (both unit and functional) one time.
-* `npm run ci` - cleans, lints, and builds the application and runs Intern tests (both unit and functional) one time.
-
+```
+node server.js
+```
 
 
 ## Development server
