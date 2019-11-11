@@ -48,6 +48,15 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 
 # Project Specifics
+## Technologies Used
+
+* Tech one
+
+* Tech two
+
+* Tech three
+
+
 ## Angular Material
 
 <p align="center">
