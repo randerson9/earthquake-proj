@@ -64,6 +64,8 @@ Angular Material is a collection of Material Design components for Angular web a
 
 ![leaflet map ex](https://www.researchgate.net/profile/David_Slater12/publication/320444878/figure/download/fig9/AS:551169596588034@1508420480530/An-example-OpenStreetMap-of-the-Naples-and-Mount-Vesuvius-region-Source.png)
 
+![leaflet map ex](http://www.igismap.com/wp-content/uploads/2017/01/leafletjs-getting-started-output.jpg)
+
 
 ## Further help
 
