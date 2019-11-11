@@ -51,7 +51,9 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Angular Material
 Angular Material is a collection of Material Design components for Angular web applications. It is well-optimized for Angular and the documentation is excellent. A link to the main website can be found [here](https://material.angular.io/). Listed below are some key parts of the project that were created using Angular Material. If you are interested in learning about the functionality or seeing examples, links are provided.
 
-The toolbar was created using the <mat-toolbar> container. Documentation and examples can be found [here](https://material.angular.io/components/toolbar/overview).
+* The toolbar was created using the \<mat-toolbar>\ container. Documentation and examples can be found [here](https://material.angular.io/components/toolbar/overview).
+
+* second part of list
 
 ## Leaflet.js
 
