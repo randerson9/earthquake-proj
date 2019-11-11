@@ -49,7 +49,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 # Project Specifics
 ## Angular Material
-![Angular Material Logo](https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwj40_X49OLlAhXPmuAKHYxeD9IQjRx6BAgBEAQ&url=https%3A%2F%2Faglowiditsolutions.com%2Fblog%2Ftop-angular-component-libraries%2F&psig=AOvVaw1Tfy85I-RdzZH9BIpWMNdv&ust=1573587471098760)
+![Angular Material Logo](https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png)
 Angular Material is a collection of Material Design components for Angular web applications. It is well-optimized for Angular and the documentation is excellent. A link to the main website can be found [here](https://material.angular.io/). Listed below are some key parts of the project that were created using Angular Material. If you are interested in learning about the functionality or seeing examples, links are provided.
 
 * The toolbar was created using the \<mat-toolbar> container. Documentation and examples can be found [here](https://material.angular.io/components/toolbar/overview).
