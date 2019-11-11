@@ -49,6 +49,9 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Angular Material
 Angular Material is a collection of Material Design components for Angular web applications. 
 
+## Leaflet.js
+
+[Quick Start Guide](https://leafletjs.com/examples/quick-start/) version 8.3.9.
 
 ## Further help
 
