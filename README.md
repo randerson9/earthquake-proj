@@ -49,11 +49,13 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 # Project Specifics
 ## Angular Material
+![Angular Material Logo](https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjHwMqu9OLlAhXBl-AKHYBwBooQjRx6BAgBEAQ&url=https%3A%2F%2Fmedium.com%2F%40swarnakishore%2Fgetting-started-with-angular-material-angular-6-a3f46c63ee66&psig=AOvVaw1Tfy85I-RdzZH9BIpWMNdv&ust=1573587471098760)
 Angular Material is a collection of Material Design components for Angular web applications. It is well-optimized for Angular and the documentation is excellent. A link to the main website can be found [here](https://material.angular.io/). Listed below are some key parts of the project that were created using Angular Material. If you are interested in learning about the functionality or seeing examples, links are provided.
 
-* The toolbar was created using the \<mat-toolbar>\ container. Documentation and examples can be found [here](https://material.angular.io/components/toolbar/overview).
+* The toolbar was created using the \<mat-toolbar> container. Documentation and examples can be found [here](https://material.angular.io/components/toolbar/overview).
 
-* second part of list
+* The main table displaying the earthquake data was created using 'mat-table', which can be used to quickly build data tables. Documentation and examples can be found [here](https://material.angular.io/components/table/overview).
+
 
 ## Leaflet.js
 
