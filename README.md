@@ -53,7 +53,7 @@ Angular Material is a collection of Material Design components for Angular web a
 
 ## Leaflet.js
 
-![alt text](https://leafletjs.com/docs/images/logo.png)
+![leaflet logo](https://wiki.openstreetmap.org/w/images/5/55/Leaflet.png)
 
 * A map setup guide specific to Angular can be found [here](https://alligator.io/angular/angular-and-leaflet/). This guide was used to display the map in the early stages of this project.
 
