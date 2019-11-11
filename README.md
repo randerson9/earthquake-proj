@@ -51,10 +51,8 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Angular Material
 
 <p align="center">
-  <img width="360" height="200" src="https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png">
+  <img width="400" height="200" src="https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png">
 </p>
-
-![Angular Material Logo](https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png)
 
 Angular Material is a collection of Material Design components for Angular web applications. It is well-optimized for Angular and the documentation is excellent. A link to the main website can be found [here](https://material.angular.io/). Listed below are some key parts of the project that were created using Angular Material. If you are interested in learning about the functionality or seeing examples, links are provided.
 
