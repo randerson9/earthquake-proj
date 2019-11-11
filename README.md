@@ -65,6 +65,7 @@ Angular Material is a collection of Material Design components for Angular web a
 
 * Thorough Documentation can be found [here](https://leafletjs.com/reference-1.5.0.html).
 
+![leaflet logo](https://www.tutorialspoint.com/leafletjs/images/open_street_map.jpg)
 
 
 ## Further help
