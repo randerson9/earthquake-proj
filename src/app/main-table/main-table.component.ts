@@ -1,13 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { MessageService, GetQuakesService } from '../_services';
+import { IEarthquake } from '../earthquake';
 
-// The following interface contains all of the relevant data for each earthquake we wish to display in the resulting table.
-interface EarthquakeElement {
-  magnitude: number;
-  latitude: number;
-  longitude: number;
-  area: string;
-}
 
 @Component({
   selector: 'app-main-table',
@@ -15,11 +9,11 @@ interface EarthquakeElement {
   templateUrl: 'main-table.component.html'
 })
 export class MainTableComponent implements OnInit {
-  EARTHQUAKE_DATA_ALL: EarthquakeElement[] = []; // holds all earthquake data
-  EARTHQUAKE_DATA_OVER4_5: EarthquakeElement[] = []; // holds all earthquakes magnitude 4.5+
-  EARTHQUAKE_DATA_OVER2_5: EarthquakeElement[] = []; // holds all earthquakes magnitude 2.5+
-  EARTHQUAKE_DATA_OVER1: EarthquakeElement[] = []; // holds all earthquakes magnitude 1+
-  DATA_CURRENTLY_DISPLAYED: EarthquakeElement[] = [];
+  EARTHQUAKE_DATA_ALL: IEarthquake[] = []; // holds all earthquake data
+  EARTHQUAKE_DATA_OVER4_5: IEarthquake[] = []; // holds all earthquakes magnitude 4.5+
+  EARTHQUAKE_DATA_OVER2_5: IEarthquake[] = []; // holds all earthquakes magnitude 2.5+
+  EARTHQUAKE_DATA_OVER1: IEarthquake[] = []; // holds all earthquakes magnitude 1+
+  DATA_CURRENTLY_DISPLAYED: IEarthquake[] = [];
   earthquakeDataArray = new Array(); // This is a temporary array to store earthquake data brought over from the node.js backend
 
   displayedColumns = ['magnitude', 'latitude', 'longitude', 'area']; // note: the column names MUST be the same as the
@@ -56,24 +50,26 @@ export class MainTableComponent implements OnInit {
       const location = this.earthquakeDataArray[i].properties.place; // holds the location as a string. E.g: 'Southern Italy'
       const long = this.earthquakeDataArray[i].geometry.coordinates[0]; // longitude of the earthquake
       const lat = this.earthquakeDataArray[i].geometry.coordinates[1]; // latitude of the earthquake
-      const newValue: EarthquakeElement = {
+
+      // use the earthquake interface to group the data
+      const newQuake: IEarthquake = {
         magnitude: mag,
         latitude: lat,
         longitude: long,
         area: location
       };
 
-      this.EARTHQUAKE_DATA_ALL.push(newValue); // always push to this array, as it contains all earthquakes!!
+      this.EARTHQUAKE_DATA_ALL.push(newQuake); // always push to this array, as it contains all earthquakes!!
 
       // We will populate arrays based on the earthquake's magnitude to make it easy to display based on magnitude later on
       if (mag >= 1) {
-        this.EARTHQUAKE_DATA_OVER1.push(newValue);
+        this.EARTHQUAKE_DATA_OVER1.push(newQuake);
       }
       if (mag >= 2.5) {
-        this.EARTHQUAKE_DATA_OVER2_5.push(newValue);
+        this.EARTHQUAKE_DATA_OVER2_5.push(newQuake);
       }
       if (mag >= 4.5) {
-        this.EARTHQUAKE_DATA_OVER4_5.push(newValue);
+        this.EARTHQUAKE_DATA_OVER4_5.push(newQuake);
       }
     }
 
@@ -91,7 +87,7 @@ export class MainTableComponent implements OnInit {
       this.DATA_CURRENTLY_DISPLAYED = [...this.EARTHQUAKE_DATA_OVER1]; // update what is currently displayed
       this.messageService.notifyOther({ magValue: 1 }); // with our shared service, we send a message over to
     } else if (magVal === 2.5) {
-      this.DATA_CURRENTLY_DISPLAYED = [...this.EARTHQUAKE_DATA_OVER2_5];
+      this.DATA_CURRENTLY_DISPLAYED = [...this.EARTHQUAKE_DATA_OVER2_5]; // update what is currently displayed
       this.messageService.notifyOther({ magValue: 2.5 }); // with our shared service, we send a message over to
     } else if (magVal === 4.5) {
       this.DATA_CURRENTLY_DISPLAYED = [...this.EARTHQUAKE_DATA_OVER4_5];

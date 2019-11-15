@@ -4,38 +4,48 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { DisplayMapComponent } from './display-map/display-map.component';
 import { MainTableComponent } from './main-table/main-table.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule, MatInputModule, MatMenuModule, MatExpansionModule, MatButtonModule, MatTableModule } from '@angular/material';
+import { MessageService } from './_services/message.service';
+import { GetQuakesService } from './_services/getquakes.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('AppComponent', () => {
+fdescribe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatMenuModule,
+        MatExpansionModule,
+        MatButtonModule,
+        MatTableModule
+      ],
+      providers: [
+          MainTableComponent,
+          DisplayMapComponent,
+          MessageService,
+          HeaderComponent,
+          GetQuakesService
       ],
       declarations: [
         AppComponent,
-        HeaderComponent,
-        DisplayMapComponent,
-        MainTableComponent
       ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
+  fit('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'earthquake-proj'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('earthquake-proj');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('earthquake-proj app is running!');
-  });
 });

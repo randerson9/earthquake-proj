@@ -2,14 +2,12 @@ import { DisplayMapComponent } from './display-map.component';
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MessageService, GetQuakesService } from '../_services';
-import { MainTableComponent } from '../main-table/main-table.component';
+// import { MainTableComponent } from '../main-table/main-table.component';
 import { async, ComponentFixture, fakeAsync, tick, flushMicrotasks } from '@angular/core/testing';
 import { Container } from '@angular/compiler/src/i18n/i18n_ast';
 import * as L from 'leaflet';
 
-fdescribe('DisplayMapComponent', () => {
-
-  let mappyboy: DisplayMapComponent;
+describe('DisplayMapComponent', () => {
 
   const quake1 = {
     properties: {mag: 1.5},
@@ -51,8 +49,6 @@ fdescribe('DisplayMapComponent', () => {
 
   beforeEach(
     async(() => {
-      mappyboy = TestBed.get(DisplayMapComponent);
-
 // =======================================================
       afixture = TestBed.createComponent(DisplayMapComponent); // error clearning up this boy
       acomponent = afixture.componentInstance;
@@ -66,16 +62,8 @@ fdescribe('DisplayMapComponent', () => {
 
   }));
 
-  fit ('should add two numbers', fakeAsync(() => {
-    spyOn(mappyboy, 'scaleCircles');
-    // const mappyboy = new DisplayMapComponent(new MessageService, null);
-    const result = mappyboy.add(2, 2);
-    expect(result).toBe(4);
-    expect(mappyboy.scaleCircles).toHaveBeenCalled();
-  }));
 
-
-  fit('scaleCircles() should return a radius value, it should return a number', fakeAsync(() => {
+  it('scaleCircles() should return a radius value, it should return a number', fakeAsync(() => {
     let result = acomponent.scaleCircles(1);
     expect(typeof result).toBe('number');
 
@@ -85,7 +73,7 @@ fdescribe('DisplayMapComponent', () => {
   }));
 
 
-  fit('when we call setupMap(), we should call updateMap() and createCircle()', () => {
+  it('when we call setupMap(), we should call updateMap() and createCircle()', () => {
     spyOn(acomponent, 'updateMap').and.callFake(() => null);
     spyOn(acomponent, 'createCircle');
 
@@ -100,7 +88,7 @@ fdescribe('DisplayMapComponent', () => {
   });
 
 
-  fit('createCircle() should call setColor() and scaleCircles(). Data in newly created circle is validated.', () => {
+  it('createCircle() should call setColor() and scaleCircles(). Data in newly created circle is validated.', () => {
     spyOn(acomponent, 'setColor');
     spyOn(acomponent, 'scaleCircles').and.callFake(() => 45000);
 
@@ -114,7 +102,7 @@ fdescribe('DisplayMapComponent', () => {
   });
 
 
-  fit('updateMap() should call clearMap() add layers to map (from whatToDisplay[] array). ', () => {
+  it('updateMap() should call clearMap() add layers to map (from whatToDisplay[] array). ', () => {
     spyOn(acomponent, 'clearMap').and.callFake(() => null);
 
     // generate some dummy circles to add to the map
@@ -140,7 +128,7 @@ fdescribe('DisplayMapComponent', () => {
   });
 
 
-  fit('clearMap() should remove layers from map. ', () => {
+  it('clearMap() should remove layers from map. ', () => {
     const newCircle1 = acomponent.createCircle([22, 45], 1.4);
     const newCircle2 = acomponent.createCircle([43, -25], 4.4);
 
@@ -168,10 +156,10 @@ fdescribe('DisplayMapComponent', () => {
   });
 
 
-  it('fetchData() should return a promise', async(() => {
+  /* it('fetchData() should return a promise', async(() => {
     // fetchData() should return a promise
 
     // the contents of earthquakeDataArray should change (i.e. should be nonzero length)
-  }));
+  }));*/
 
 });
