@@ -16,6 +16,12 @@ export class GetQuakesService {
       //       return this.http.get<IEarthquake[]>(this.dataUrl);
 
     }
+    /* testFunction() {
+    return this._earthquakeService.getQuakes()
+    .toPromise().then((data: any) => {
+      this.aaaatest = data.quakedata.features;
+    });
+  }*/
 }
 
 
