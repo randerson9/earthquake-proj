@@ -4,9 +4,11 @@
 <button mat-raised-button color = "accent" (click)="refreshTable()"> Refresh Table </button>
 
 <mat-menu #menu1="matMenu">
-  <button mat-menu-item (click)="upDateTable(1)"> mag 1.0+ </button>
-  <button mat-menu-item (click)="upDateTable(2.5)"> mag 2.5+ </button>
-  <button mat-menu-item (click)="upDateTable(4.5)"> mag 4.5+ </button>
+  <button mat-menu-item (click)="upDateTable('0to1')"> magnitude 0-.999 </button>
+  <button mat-menu-item (click)="upDateTable('1to2')"> magnitude 1.0-1.999 </button>
+  <button mat-menu-item (click)="upDateTable('2to3')"> magnitude 2.0-2.999 </button>
+  <button mat-menu-item (click)="upDateTable('3to4')"> magnitude 3.0-3.999 </button>
+  <button mat-menu-item (click)="upDateTable('4.0+')"> magnitude 4.0+ </button>
   <button mat-menu-item (click)="refreshTable()"> refresh table </button>
 </mat-menu>
 
