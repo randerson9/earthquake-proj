@@ -52,7 +52,13 @@ Below, we see markers corresponding to various earthquakes displayed on the map.
 ![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo1.PNG)
 
 
+Next, the earthquake data is neatly displayed in a table. This was accomplished using Angular Material.
+
+
 ![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo2.PNG)
+
+
+Finally, we are given a dropdown menu which allows to choose what magnitudes to display. When the data is changed in the table, the map is updated to reflect the changes.
 
 
 ![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo3.PNG)
