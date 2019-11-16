@@ -49,19 +49,20 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Below, we see markers corresponding to various earthquakes displayed on the map. The colors and corresponding radii are assigned based on the magnitude of the earthquake. A legend is provided in the bottom right corner, which displays what colors represent the various magnitudes. 
 
-![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo1.PNG)
+
+![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo1.PNG) <br>
 
 
 Next, the earthquake data is neatly displayed in a table. This was accomplished using Angular Material.
 
 
-![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo2.PNG)
+![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo2.PNG) <br>
 
 
-Finally, we are given a dropdown menu which allows to choose what magnitudes to display. When the data is changed in the table, the map is updated to reflect the changes.
+Finally, we are given a dropdown menu which allows us to choose what magnitudes to display. When the data is changed in the table, the map is updated to reflect the changes.
 
 
-![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo3.PNG)
+![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo3.PNG) <br>
 
 # Project Specifics
 ## Technologies used in addition to Angular
@@ -76,7 +77,7 @@ Finally, we are given a dropdown menu which allows to choose what magnitudes to 
 
 ## Angular Material
 
-<p align="center">
+<p>
   <img width="400" height="200" src="https://aglowiditsolutions-6lohnuosd1nx.netdna-ssl.com/wp-content/uploads/2019/06/Angular-Material.png">
 </p>
 
