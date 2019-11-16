@@ -22,8 +22,6 @@ npm install
 npm start
 ```
 
-The `npm start` command builds (compiles TypeScript and copies assets) the application into `dist/`, watches for changes to the source files, and runs `lite-server` on port `3000`.
-
 Shut it down manually with `Ctrl-C`.
 
 #### Starting the server
@@ -50,7 +48,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 
 # Project Specifics
-## Technologies used on top of Angular
+## Technologies used in addition to Angular
 
 * Node.js -- v10.16.3
 
