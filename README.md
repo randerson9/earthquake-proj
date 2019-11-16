@@ -47,8 +47,15 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 # Demo
 
+Below, we see markers corresponding to various earthquakes displayed on the map. The colors and corresponding radii are assigned based on the magnitude of the earthquake. A legend is provided in the bottom right corner, which displays what colors represent the various magnitudes. 
+
 ![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo1.PNG)
 
+
+![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo2.PNG)
+
+
+![alt text](https://github.com/randerson9/earthquake-proj/blob/master/aaprojectdemo3.PNG)
 
 # Project Specifics
 ## Technologies used in addition to Angular
