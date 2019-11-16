@@ -9,7 +9,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Clone the repo
 
 ```shell
-git clone https://github.com/[INSERT LINK HERE]
+git clone https://github.com/randerson9/earthquake-proj.git
 cd earthquake-proj
 ```
 
