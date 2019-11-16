@@ -40,6 +40,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Running unit tests
 
+All unit tests were developed using Jasmine.
+
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 
@@ -48,14 +50,15 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 
 # Project Specifics
-## Technologies Used
+## Technologies used on top of Angular
 
-* Tech one
+* Node.js -- v10.16.3
 
-* Tech two
+* Express -- v4.17.1
 
-* Tech three
+* Angular Material -- v8.2.3
 
+* Leaflet -- v1.5.1
 
 ## Angular Material
 
