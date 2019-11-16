@@ -5,7 +5,7 @@ import { IEarthquake } from '../earthquake';
 
 describe('getquakesService', () => {
 
-  let service: GetQuakesService; // service
+  let service: GetQuakesService;
   let httpMock: HttpTestingController;
   let injector: TestBed;
 
@@ -26,7 +26,7 @@ describe('getquakesService', () => {
     httpMock.verify();
   });
 
-  describe('fetch quake data', () => {
+  fdescribe('fetch quake data', () => {
     it('should return an Observable<any>', () => {
       const dummyData: IEarthquake[] = [];
       const quake1: IEarthquake = {magnitude: 1.5, latitude: 33.0, longitude: 22.4, area: 'somewhere'};

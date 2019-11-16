@@ -5,7 +5,7 @@ const app = express();
 
 
 correctPath = path.join(__dirname, 'testquake.json');
-console.log(correctPath);
+// console.log(correctPath);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,7 +23,6 @@ app.use((req, res, next) => {
 app.use("/api/quakedata", (req, res, next) => {
   let rawdata = fs.readFileSync(correctPath);
   let quakedata = JSON.parse(rawdata);
-  // console.log(quakedata);
 
   res.status(200).json({
     // message: "quake data fetched succesfully!",

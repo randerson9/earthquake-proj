@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MessageService, GetQuakesService } from '../_services';
 import * as L from 'leaflet';
@@ -12,26 +12,27 @@ import * as L from 'leaflet';
 export class DisplayMapComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   myMap: any;
+  legend = L.control({ position: 'bottomright' }); // set the position of our legend
+
 
   // define feature groups for earthquakes with different magnitudes.
   allMagnitudes = new Array(); // holds markers for all earthquake data
-  // tslint:disable-next-line: variable-name
-  magnitudesOver4_5 = new Array(); // holds markers for over 4.5 magnitude
-  // tslint:disable-next-line: variable-name
-  magnitudesOver2_5 = new Array(); // holds markers for over 4.5 magnitude
-  magnitudesOver1 = new Array(); // holds markers for over 4.5 magnitude
-  earthquakeDataArray = new Array(); // holds earthquake data during iniitial setup
+  magnitudesOver4 = new Array(); // holds markers for over 4.0 magnitude
+  magnitudes3to4 = new Array(); // holds markers magnitudes 3.0 to 3.999...
+  magnitudes2to3 = new Array(); // holds markers for magnitudes 2.0 to 2.999...
+  magnitudes1to2 = new Array();
+  magnitudes0to1 = new Array();
 
-  whatToDisplay = this.allMagnitudes;
+  earthquakeDataArray = new Array(); // holds earthquake data during iniitial setup
+  whatToDisplay = new Array();       // holds whatever markers are to be currently displayed
 
   // Next, we set the bounds of the map.
   southWest = L.latLng(-150, -250);
   northEast = L.latLng(110, 250);
   myBounds = L.latLngBounds(this.southWest, this.northEast);
-  startingCoordinates = [39.585, -103.46];
+  startingCoordinates = [39.585, -103.46]; // the map will initally be centered on these coordinates
   startingZoom = 5;
 
-  // tslint:disable-next-line: variable-name
   constructor(
     private messageService: MessageService,
     // tslint:disable-next-line: variable-name
@@ -56,25 +57,39 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
       noWrap: true
     }).addTo(this.myMap);
 
-    this.myMap.setMaxBounds(this.myBounds); // this function makes the map "bounce back" if the user goes beyond the bounds of the map
+    // this function makes the map "bounce back" if the user goes beyond the bounds of the map
+    this.myMap.setMaxBounds(this.myBounds);
 
-    this.fetchData().then(() => this.setupMap(this.earthquakeDataArray));
+    // This will draw the legend onto the map
+    this.setupLegend();
 
-    console.log(this.myMap);
+    // Fetch the data, wait until the http GET request completes, then call setupMap and listenForChanges()
+    // Without waiting for fetchData() to complete, we could end up with errors!!
+    this.fetchData().then(() => {
+      this.setupMap(this.earthquakeDataArray);
+      this.listenForChanges();
+    });
 
-    // the following subscription is used to receive messages passed from main-table.component.ts
-    // This is accomplished via a shared service (message.service.ts). We update which group of markers
-    // are to be displayed. We simply update the whatToDisplay array to whichever group of circles correspond
-    // to the magnitude value passed, then we call updateMap() to make the changes take effect
+  }
+
+
+  // the following subscription is used to receive messages passed from main-table.component.ts
+  // This is accomplished via a shared service (message.service.ts). We update which group of markers
+  // are to be displayed. We simply update the whatToDisplay array to whichever group of circles correspond
+  // to the magnitude value passed, then we call updateMap() to make the changes take effect
+  listenForChanges() {
     this.subscription = this.messageService.notifyObservable$.subscribe(
       receivedMessage => {
-        if (receivedMessage.magValue === 4.5) {
-          this.whatToDisplay = this.magnitudesOver4_5;
-          console.log(this.myMap);
-        } else if (receivedMessage.magValue === 2.5) {
-          this.whatToDisplay = this.magnitudesOver2_5;
-        } else if (receivedMessage.magValue === 1) {
-          this.whatToDisplay = this.magnitudesOver1;
+        if (receivedMessage.magValue === '4.0+' ) {
+          this.whatToDisplay = this.magnitudesOver4;
+        } else if (receivedMessage.magValue === '3to4') {
+          this.whatToDisplay = this.magnitudes3to4;
+        } else if (receivedMessage.magValue === '2to3') {
+          this.whatToDisplay = this.magnitudes2to3;
+        } else if (receivedMessage.magValue === '1to2') {
+          this.whatToDisplay = this.magnitudes1to2;
+        } else if (receivedMessage.magValue === '0to1') {
+          this.whatToDisplay = this.magnitudes0to1;
         } else if (receivedMessage.magValue === 'all') {
           this.whatToDisplay = this.allMagnitudes;
         }
@@ -84,6 +99,9 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
     );
   }
 
+
+  // This function uses GetQuakesService, which makes an http GET request to
+  // fetch earthquake data from the backend
   fetchData() {
     return this._earthquakeService
       .getQuakes()
@@ -93,11 +111,12 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
       });
   }
 
-  add(x, y) {
-    const random = this.scaleCircles(x + y); // remove this later
-    return x + y;
-  }
 
+  // The following function:
+  // 1.) parses the raw data retrieved from fetchData(),
+  // 2.) creates circle markers for each earthquake by calling createCircle(),
+  // 3.) groups the markers into arrays based on the earthquake's magnitude,
+  // 4.) calls updateMap() to add the newly created markers to the map
   setupMap(quakeDataArray) {
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < quakeDataArray.length; i++) {
@@ -112,24 +131,50 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
       // we push every single circle marker (regardless of magnitude) to allMagnitudes[]
       this.allMagnitudes.push(newCircle);
 
-      // if the magnitude is greater than or equal to 1, it gets pushed to magnitudesOver1[]
-      if (mag >= 1) {
-        this.magnitudesOver1.push(newCircle);
+      // if the magnitude is between 0 and .999..., push to the following array
+      if (mag >= 0 && mag < 1) {
+        this.magnitudes0to1.push(newCircle);
+      } else if (mag >= 1 && mag < 2) {        // if the magnitude is between 1 and 1.999..., push to the following array
+        this.magnitudes1to2.push(newCircle);
+      } else if (mag >= 2 && mag < 3) {         // if the magnitude is between 2 and 2.999..., push to the following array
+        this.magnitudes2to3.push(newCircle);
+      } else if (mag >= 3 && mag < 4) {         // if the magnitude is between 3 and 3.999..., push to the following array
+        this.magnitudes3to4.push(newCircle);
+      } else if (mag >= 4.0) {
+        this.magnitudesOver4.push(newCircle);
       }
-      // if the magnitude is greater than or equal to 2.5, it gets pushed to magnitudesOver2_5[]
-      if (mag >= 2.5) {
-        this.magnitudesOver2_5.push(newCircle);
-      }
-      if (mag >= 4.5) {
-        this.magnitudesOver4_5.push(newCircle);
-      }
-
-      // during each iteration of the initialization process, we add each newly created circle to the map one by one.
-      // this.allMagnitudes[i].addTo(this.myMap);
     }
+
+    // we initially want to display all earthquakes
     this.whatToDisplay = this.allMagnitudes;
     this.updateMap();
   }
+
+  // The following function draws a legend onto the map
+  setupLegend() {
+    this.legend.onAdd = map => {
+
+      // tslint:disable-next-line: one-variable-per-declaration
+      const div = L.DomUtil.create('div', 'info legend');
+      const mags = [0, 1, 2, 3, 4];
+      const labels = [];
+
+      for (let i = 0; i < mags.length; i++) {
+        const from = mags[i];
+        const to = mags[i + 1];
+
+        labels.push(
+          '<i style="background:' + this.setColor(from) + '"></i> ' +
+          from + (to ? '&ndash;' + to : '+'));
+      }
+
+      div.innerHTML = labels.join('<br>');
+      return div;
+    };
+
+    this.legend.addTo(this.myMap);
+  }
+
 
   // the following funcion loops through the array holding all possible markers and removes them from the map
   clearMap() {
@@ -139,16 +184,18 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
     }
   }
 
+
   createCircle(coords, mag) {
     const newCircle = L.circle(coords, {
       color: '#545453',
       fillColor: this.setColor(mag),
-      fillOpacity: 0.5,
+      fillOpacity: 0.6,
       radius: this.scaleCircles(mag)
     });
 
     return newCircle;
   }
+
 
   // the following function clears the map by calling clearMap(), then loops through whatever array of markers
   // is currently displayed in whatToDisplay[]. It adds them to the map one at a time.
@@ -160,29 +207,40 @@ export class DisplayMapComponent implements OnInit, OnDestroy {
     }
   }
 
+
   // we choose the size of the earthquake based on the magnitude
   // this function returns an integer that corresponds to the radius of the circle marker
   scaleCircles(magnitude) {
-    if (magnitude >= 0 && magnitude < 1.5) {
-      return 45000;
-    } else if (magnitude >= 1.5 && magnitude <= 4.0) {
-      return 80000;
-    } else {
+    if (magnitude >= 0 && magnitude < 1) {
+      return 15000;
+    } else if (magnitude >= 1 && magnitude < 2) {
+      return 30000;
+    } else if (magnitude >= 2 && magnitude < 3) {
+      return 60000;
+    } else if (magnitude >= 3 && magnitude < 4) {
+      return 125000;
+    } else if (magnitude >= 4.0) {
       return 250000;
     }
   }
 
+
   // we choose the color for the earthquake marker based on the magnitude value
   // this function simply returns a Hexadecimal RGB value
   setColor(magnitude) {
-    if (magnitude >= 0 && magnitude < 1.5) {
-      return '#6B05F3';
-    } else if (magnitude >= 1.5 && magnitude <= 4.0) {
-      return '#E0FB19';
-    } else {
-      return '#f03';
+    if (magnitude >= 0 && magnitude < 1) {
+      return '#bab8b3';
+    } else if (magnitude >= 1 && magnitude < 2) {
+      return '#FED976';
+    } else if (magnitude >= 2 && magnitude < 3) {
+      return '#ff7b2e';
+    } else if (magnitude >= 3 && magnitude < 4) {
+      return '#E31A1C';
+    } else if (magnitude >= 4.0) {
+      return '#800026';
     }
   }
+
 
   // It is a good idea to unsubscribe to prevent any memory leaks
   ngOnDestroy() {

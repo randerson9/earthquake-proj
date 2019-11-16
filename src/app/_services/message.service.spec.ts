@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { GetQuakesService } from './getquakes.service';
 
 
-describe('MessageService', () => {
+fdescribe('MessageService', () => {
 
   // let msgService: MessageService;
   let tableComponent: MainTableComponent;
@@ -21,7 +21,7 @@ describe('MessageService', () => {
 
   });
 
-  it('____calling upDateTable() in MainTableComponent should change notifyObservable',
+  it('__calling upDateTable() in MainTableComponent should change notifyObservable',
     inject([MessageService], (msgService, done) => {
       msgService.notifyObservable$.subscribe((message) => {
         expect(message.magValue).toBe(4.5);

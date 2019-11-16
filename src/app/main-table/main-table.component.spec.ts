@@ -1,58 +1,23 @@
 import { DisplayMapComponent } from '../display-map/display-map.component';
-import { TestBed, getTestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MessageService, GetQuakesService } from '../_services';
-import { async, ComponentFixture, fakeAsync, tick, flushMicrotasks } from '@angular/core/testing';
-import { Container } from '@angular/compiler/src/i18n/i18n_ast';
-import * as L from 'leaflet';
+import { async, ComponentFixture } from '@angular/core/testing';
 import { MainTableComponent } from './main-table.component';
 import { MatTableModule, MatToolbarModule, MatInputModule, MatMenuModule,
          MatExpansionModule, MatButtonModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IEarthquake } from '../earthquake';
+import { testQuake1, testQuake2, testQuake3, TESTQUAKE1, TESTQUAKE2, TESTQUAKE3 } from './testData';
 
 fdescribe('MainTableComponent', () => {
 
-  const testQuake1 = {
-    properties: {
-      mag: 2.6,
-      place: 'somewhere'
-    },
-    geometry: {
-      coordinates: [33.0, 22.4]
-    }
-  };
-
-  const testQuake2 = {
-    properties: {
-      mag: 4.9,
-      place: 'somewhere eles'
-    },
-    geometry: {
-      coordinates: [63.0, -82.4]
-    }
-  };
-
-  const testQuake3 = {
-    properties: {
-      mag: 0.5,
-      place: 'a galaxy far, far away'
-    },
-    geometry: {
-      coordinates: [33.0, 22.4]
-    }
-  };
-
-
-  let messageService: MessageService;
   let acomponent: MainTableComponent;
   let afixture: ComponentFixture<MainTableComponent>;
 
 
   beforeEach(
     async(() => {
-
       TestBed.configureTestingModule({
         imports: [
           HttpClientTestingModule,
@@ -77,45 +42,12 @@ fdescribe('MainTableComponent', () => {
 
 
   beforeEach(
-    async(() => {
+    async () => {
       afixture = TestBed.createComponent(MainTableComponent);
       acomponent = afixture.componentInstance;
       afixture.detectChanges();
-  }));
-
-  beforeEach(() => {
-      messageService = TestBed.get(MessageService);
   });
 
-  /*   setupTable_InitializeData() {
-    for (let i = 0; i < this.earthquakeDataArray.length; i++) {
-      const mag = this.earthquakeDataArray[i].properties.mag; // holds the magnitudes of various earthquakes
-      const location = this.earthquakeDataArray[i].properties.place; // holds the location as a string. E.g: 'Southern Italy'
-      const long = this.earthquakeDataArray[i].geometry.coordinates[0]; // longitude of the earthquake
-      const lat = this.earthquakeDataArray[i].geometry.coordinates[1]; // latitude of the earthquake
-
-      const newQuake: IEarthquake = {
-        magnitude: mag,
-        latitude: lat,
-        longitude: long,
-        area: location
-      };
-
-      this.EARTHQUAKE_DATA_ALL.push(newQuake); // always push to this array, as it contains all earthquakes!!
-
-      if (mag >= 1) {
-        this.EARTHQUAKE_DATA_OVER1.push(newQuake);
-      }
-      if (mag >= 2.5) {
-        this.EARTHQUAKE_DATA_OVER2_5.push(newQuake);
-      }
-      if (mag >= 4.5) {
-        this.EARTHQUAKE_DATA_OVER4_5.push(newQuake);
-      }
-    }
-
-    this.DATA_CURRENTLY_DISPLAYED = [...this.EARTHQUAKE_DATA_ALL];
-  }*/
 
   fit('setupTable_InitializeData() should populate the relavent arrays and setup what is to be displayed in the table', () => {
     acomponent.earthquakeDataArray.push(testQuake1);
@@ -125,11 +57,62 @@ fdescribe('MainTableComponent', () => {
     acomponent.setupTable_InitializeData();
 
     expect(acomponent.EARTHQUAKE_DATA_ALL.length).toBe(3);
-    expect(acomponent.EARTHQUAKE_DATA_OVER1.length).toBe(2);
-    expect(acomponent.EARTHQUAKE_DATA_OVER2_5.length).toBe(2);
-    expect(acomponent.EARTHQUAKE_DATA_OVER4_5.length).toBe(1);
+    expect(acomponent.EARTHQUAKE_MAG_BETWEEN0AND1.length).toBe(1);
+    expect(acomponent.EARTHQUAKE_MAG_BETWEEN2AND3.length).toBe(1);
+    expect(acomponent.EARTHQUAKE_MAG_OVER4.length).toBe(1);
 
     expect(acomponent.DATA_CURRENTLY_DISPLAYED).toEqual(acomponent.EARTHQUAKE_DATA_ALL);
 
   });
+
+  fit('upDateTable() --- DATA_CURRENTLY_DISPLAYED should be updated & removeAllColums() should get called', () => {
+    spyOn(acomponent, 'removeAllColumns').and.callFake( () => null );
+    acomponent.EARTHQUAKE_MAG_BETWEEN2AND3.push(TESTQUAKE1);
+    acomponent.EARTHQUAKE_MAG_OVER4.push(TESTQUAKE2);
+    acomponent.EARTHQUAKE_MAG_BETWEEN0AND1.push(TESTQUAKE3);
+
+    acomponent.upDateTable('0to1');
+    expect(acomponent.removeAllColumns).toHaveBeenCalled();
+    expect(acomponent.DATA_CURRENTLY_DISPLAYED).toEqual(acomponent.EARTHQUAKE_MAG_BETWEEN0AND1);
+
+    acomponent.upDateTable('1to2');
+    expect(acomponent.removeAllColumns).toHaveBeenCalled();
+    expect(acomponent.DATA_CURRENTLY_DISPLAYED).toEqual(acomponent.EARTHQUAKE_MAG_BETWEEN1AND2);
+
+  });
+
+  fit('calling upDateTable() should pass a message using MessageService',
+    inject([MessageService], (msgService) => {
+      msgService.notifyObservable$.subscribe((message) => {
+        expect(message.magValue).toBe('4.0+');
+      });
+
+      acomponent.upDateTable('4.0+');
+  }));
+
+
+  fit('removeAllColumns() should result in columnsToDisplay[] having zero length', () => {
+    acomponent.removeAllColumns();
+    expect(acomponent.columnsToDisplay.length).toBe(0);
+  });
+
+
+  fit('refreshTable() should pass a message to DisplayMapComponent using MessageService',
+  inject([MessageService], (msgService) => {
+    msgService.notifyObservable$.subscribe((message) => {
+      expect(message.magValue).toBe('all');
+    });
+
+    acomponent.refreshTable();
+  }));
+
+  fit('refreshTable() should call removeAllColumns() and update the value of this.DATA_CURRENTLY_DISPLAYED[]', () => {
+    spyOn(acomponent, 'removeAllColumns').and.callFake( () => null );
+    acomponent.EARTHQUAKE_DATA_ALL.push(TESTQUAKE1); // give it some inital value for testing
+
+    acomponent.refreshTable();
+    expect(acomponent.DATA_CURRENTLY_DISPLAYED).toEqual(acomponent.EARTHQUAKE_DATA_ALL);
+    expect(acomponent.removeAllColumns).toHaveBeenCalled();
+  });
+
 });

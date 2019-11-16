@@ -10,24 +10,8 @@ export class GetQuakesService {
 
     constructor(private http: HttpClient) {}
 
-    // getQuakes(): Observable<IEarthquake[]> {
     getQuakes(): Observable<any> {
       return this.http.get(this.dataUrl);
-      //       return this.http.get<IEarthquake[]>(this.dataUrl);
 
     }
-    /* testFunction() {
-    return this._earthquakeService.getQuakes()
-    .toPromise().then((data: any) => {
-      this.aaaatest = data.quakedata.features;
-    });
-  }*/
 }
-
-
-/* interface EarthquakeElement {
-  magnitude: number;
-  latitude: number;
-  longitude: number;
-  area: string;
-} */

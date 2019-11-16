@@ -1,14 +1,17 @@
 import { DisplayMapComponent } from './display-map.component';
-import { TestBed, getTestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MessageService, GetQuakesService } from '../_services';
-// import { MainTableComponent } from '../main-table/main-table.component';
-import { async, ComponentFixture, fakeAsync, tick, flushMicrotasks } from '@angular/core/testing';
-import { Container } from '@angular/compiler/src/i18n/i18n_ast';
+import { async, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import * as L from 'leaflet';
+import { MainTableComponent } from '../main-table/main-table.component';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule, MatInputModule, MatMenuModule, MatExpansionModule, MatButtonModule, MatTableModule } from '@angular/material';
 
-describe('DisplayMapComponent', () => {
+fdescribe('DisplayMapComponent', () => {
 
+  // The following values (quake1 and quake2) are used as test data
   const quake1 = {
     properties: {mag: 1.5},
     geometry: {
@@ -22,26 +25,38 @@ describe('DisplayMapComponent', () => {
       coordinates: [63.0, -82.4]
     }
   };
-// =======================================
+
   let acomponent: DisplayMapComponent;
   let afixture: ComponentFixture<DisplayMapComponent>;
-  /* let injector: TestBed;
-  let tableComponent: MainTableComponent;
-  let quakeService: GetQuakesService;
-  let messageService: any;
-  let container;
-  let fixture; */
+
+  let tablecomponent: MainTableComponent;
+  let tablefixture: ComponentFixture<MainTableComponent>;
 
   beforeEach(
     async(() => {
 
       TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [DisplayMapComponent],
+        imports: [
+          HttpClientTestingModule,
+          HttpClientTestingModule,
+          FormsModule,
+          BrowserAnimationsModule,
+          MatToolbarModule,
+          MatInputModule,
+          MatMenuModule,
+          MatExpansionModule,
+          MatButtonModule,
+          MatTableModule
+        ],
+        declarations: [
+          DisplayMapComponent,
+          MainTableComponent
+        ],
         providers: [
           DisplayMapComponent,
           MessageService,
-          GetQuakesService
+          GetQuakesService,
+          MainTableComponent
         ]
       }).compileComponents();
     }));
@@ -49,17 +64,13 @@ describe('DisplayMapComponent', () => {
 
   beforeEach(
     async(() => {
-// =======================================================
-      afixture = TestBed.createComponent(DisplayMapComponent); // error clearning up this boy
+      afixture = TestBed.createComponent(DisplayMapComponent);
       acomponent = afixture.componentInstance;
       afixture.detectChanges();
-// =======================================================
-      // messageService = TestBed.get(MessageService);
-      // injector = getTestBed();
-      // fixture  = TestBed.createComponent(DisplayMapComponent);
-      // container = fixture.componentInstance; // to access properties and methods
 
-
+      tablefixture = TestBed.createComponent(MainTableComponent);
+      tablecomponent = tablefixture.componentInstance;
+      tablefixture.detectChanges();
   }));
 
 
@@ -77,12 +88,11 @@ describe('DisplayMapComponent', () => {
     spyOn(acomponent, 'updateMap').and.callFake(() => null);
     spyOn(acomponent, 'createCircle');
 
-    expect(acomponent).toBeTruthy();
     const dummyData = [];
-
     dummyData.push(quake1);
     acomponent.setupMap(dummyData);
-    expect(acomponent.magnitudesOver1.length).toBe(1); // the value for quake1 should be pushed into the array
+
+    expect(acomponent.magnitudes1to2.length).toBe(1); // the value for quake1 should be pushed into the array
     expect(acomponent.createCircle).toHaveBeenCalled();
     expect(acomponent.updateMap).toHaveBeenCalled();
   });
@@ -90,7 +100,7 @@ describe('DisplayMapComponent', () => {
 
   it('createCircle() should call setColor() and scaleCircles(). Data in newly created circle is validated.', () => {
     spyOn(acomponent, 'setColor');
-    spyOn(acomponent, 'scaleCircles').and.callFake(() => 45000);
+    spyOn(acomponent, 'scaleCircles').and.callFake(() => 30000);
 
     const result = acomponent.createCircle([43, -117], 1.1);
     expect(typeof result.options.radius).toBe('number');
@@ -156,10 +166,20 @@ describe('DisplayMapComponent', () => {
   });
 
 
-  /* it('fetchData() should return a promise', async(() => {
-    // fetchData() should return a promise
+  fit('calling upDateTable() from MainTableComponent should cause the map to be updated and update whatToDisplay[]',
 
-    // the contents of earthquakeDataArray should change (i.e. should be nonzero length)
-  }));*/
+    inject([MessageService], (msgService) => {
+      spyOn(acomponent, 'updateMap');
+      msgService.notifyObservable$.subscribe((message) => {
+        expect(message.magValue).toBe('4.0+');
+      });
+
+      acomponent.magnitudesOver4.push(quake2);
+      acomponent.listenForChanges();
+      tablecomponent.upDateTable('4.0+');
+      expect(acomponent.updateMap).toHaveBeenCalled();
+      expect(acomponent.whatToDisplay).toEqual(acomponent.magnitudesOver4);
+  }));
+
 
 });
